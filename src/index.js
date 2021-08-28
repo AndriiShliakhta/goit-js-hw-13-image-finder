@@ -1,37 +1,66 @@
-import './sass/main.scss';
-import '@pnotify/core/dist/BrightTheme.css';
-import { error } from '@pnotify/core';
-import { defaults } from '@pnotify/core';
-import templateFunction from './template/templateList.hbs';
-
-defaults.mode='light'
-defaults.animateSpeed = '100ms';
-defaults.hide = true;
-defaults.delay = 300;
-defaults.closer = false;
-defaults.sticker = false;
+import articlesTpl from './templates/articles.hbs';
+import './css/common.css';
+import NewsApiService from './js/news-service';
+import LoadMoreBtn from './js/components/load-more-btn';
 
 const _ = require('lodash');
 
-const input = document.querySelector('[name="query"]');
-const gallery = document.querySelector('.gallery');
+const refs = {
+  searchForm: document.querySelector('.search-form'),
+  searchInput: document.querySelector('[name="query"]'),
+  articlesContainer: document.querySelector('.gallery'),
+};
+const loadMoreBtn = new LoadMoreBtn({
+  selector: '[data-action="load-more"]',
+  hidden: true,
+});
+
+   
 
 
-const createMarkup = function (data) {
-  gallery.innerHTML = templateFunction(data.hits);    
+const newsApiService = new NewsApiService();
+
+const onImagesSearch = _.debounce((e) => {
+    newsApiService.query = e.target.value;
+
+  if (newsApiService.query === '') {
+    return alert('Введи что-то нормальное');
+  }
+
+  loadMoreBtn.show();
+  newsApiService.resetPage();
+  clearArticlesContainer();
+  fetchArticles();
+  }, 600)
+
+
+refs.searchForm.addEventListener('input', onImagesSearch);
+// refs.searchForm.addEventListener('input', e=> refs.articlesContainer.scrollIntoView({
+//   behavior: 'smooth',
+//   block: 'end',
+// }));
+loadMoreBtn.refs.button.addEventListener('click', fetchArticles);
+// loadMoreBtn.refs.button.addEventListener('click', ()=> );
+
+
+
+
+function fetchArticles() {
+  loadMoreBtn.disable();
+  newsApiService.fetchArticles().then(articles => {
+    appendArticlesMarkup(articles);
+    loadMoreBtn.enable();
+  });
+  refs.articlesContainer.scrollIntoView({
+  behavior: 'smooth',
+  block: 'end',
+})
 }
 
+function appendArticlesMarkup(articles) {
+  refs.articlesContainer.insertAdjacentHTML('beforeend', articlesTpl(articles));
+}
 
-
-const onImagesSearch = _.debounce(() => {
-  if (!input.value || input.value === ' ') { return }
-
-  fetch(`https://pixabay.com/api/?image_type=photo&orientation=horizontal&q=${input.value}&page=1&per_page=12&key=23115860-3b173cd8cbd28dc69cb35b572`)
-    .then(response => {
-      return response.json();
-    })
-    .then( createMarkup )
-  }, 500)
-
-
-input.addEventListener('input', onImagesSearch)
+function clearArticlesContainer() {
+  refs.articlesContainer.innerHTML = '';
+}

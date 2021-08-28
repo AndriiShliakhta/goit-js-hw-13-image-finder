@@ -1,0 +1,37 @@
+{{!-- {{#each this}}
+  <li>
+    <a href="{{url}}" target="_blank" rel="noopener noreferrer">
+      <article>
+        <img src="{{urlToImage}}" alt="" width="480">
+        <h2>{{title}}</h2>
+        <p>Posted by: {{author}}</p>
+        <p>{{description}}</p>
+      </article>
+    </a>
+  </li>
+{{/each}} --}}
+
+{{#each this}}
+<div class="photo-card">
+  <img src="{{webformatURL}}" alt="{{name}}" />
+
+  <div class="stats">
+    <p class="stats-item">
+      <i class="material-icons">thumb_up</i>
+      {{likes}}
+    </p>
+    <p class="stats-item">
+      <i class="material-icons">visibility</i>
+      {{views}}
+    </p>
+    <p class="stats-item">
+      <i class="material-icons">comment</i>
+      {{comments}}
+    </p>
+    <p class="stats-item">
+      <i class="material-icons">cloud_download</i>
+      {{downloads}}
+    </p>
+  </div>
+</div>
+{{/each}}

@@ -29,6 +29,7 @@
   "dependencies": {
     "@pnotify/confirm": "^5.2.0",
     "@pnotify/mobile": "^5.2.0",
+    "lodash": "^4.17.21",
     "lodash.debounce": "^4.0.8"
   }
 }
