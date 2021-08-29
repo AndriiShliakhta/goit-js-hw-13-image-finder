@@ -27,9 +27,10 @@ img {
 .button {
   display: block;
   margin-left: -70px;
-  margin-top: -20px;
+
   width: 140px;
   left: 50%;
+  bottom: 5vh;
   position: fixed;
 }
 
