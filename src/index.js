@@ -1,7 +1,9 @@
 import articlesTpl from './templates/articles.hbs';
 import './css/common.css';
-import NewsApiService from './js/news-service';
+import NewsApiService from './js/apiService';
 import LoadMoreBtn from './js/components/load-more-btn';
+import * as basicLightbox from 'basiclightbox'
+
 
 const _ = require('lodash');
 
@@ -9,6 +11,7 @@ const refs = {
   searchForm: document.querySelector('.search-form'),
   searchInput: document.querySelector('[name="query"]'),
   articlesContainer: document.querySelector('.gallery'),
+  largeImgWrap: document.querySelector('.largeImgWrap'),
 };
 const loadMoreBtn = new LoadMoreBtn({
   selector: '[data-action="load-more"]',
@@ -35,12 +38,7 @@ const onImagesSearch = _.debounce((e) => {
 
 
 refs.searchForm.addEventListener('input', onImagesSearch);
-// refs.searchForm.addEventListener('input', e=> refs.articlesContainer.scrollIntoView({
-//   behavior: 'smooth',
-//   block: 'end',
-// }));
 loadMoreBtn.refs.button.addEventListener('click', fetchArticles);
-// loadMoreBtn.refs.button.addEventListener('click', ()=> );
 
 
 
@@ -64,3 +62,19 @@ function appendArticlesMarkup(articles) {
 function clearArticlesContainer() {
   refs.articlesContainer.innerHTML = '';
 }
+
+function enlargeImage(e) {
+  // console.log( e.target.dataset.largeimg);
+  const instance = basicLightbox.create(`
+<img src="${e.target.dataset.largeimg}" >
+`);
+  // refs.modal.innerHTML = instance;
+  // console.log( instance);
+  
+  instance.show();
+  // console.log( instance);
+  
+}
+
+
+refs.articlesContainer.addEventListener('click', enlargeImage)
