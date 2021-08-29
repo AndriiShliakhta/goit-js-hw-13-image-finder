@@ -4,9 +4,7 @@ import NewsApiService from './js/apiService';
 import LoadMoreBtn from './js/components/load-more-btn';
 import * as basicLightbox from 'basiclightbox'
 
-
 const _ = require('lodash');
-
 const refs = {
   searchForm: document.querySelector('.search-form'),
   searchInput: document.querySelector('[name="query"]'),
@@ -19,28 +17,24 @@ const loadMoreBtn = new LoadMoreBtn({
 });
 
    
-
-
 const newsApiService = new NewsApiService();
 
 const onImagesSearch = _.debounce((e) => {
     newsApiService.query = e.target.value;
 
-  if (newsApiService.query === '') {
-    return alert('Введи что-то нормальное');
-  }
+    if (newsApiService.query === '') {
+      return alert('Please, enter something');
+    }
 
-  loadMoreBtn.show();
-  newsApiService.resetPage();
-  clearArticlesContainer();
-  fetchArticles();
+    loadMoreBtn.show();
+    newsApiService.resetPage();
+    clearArticlesContainer();
+    fetchArticles();
   }, 600)
 
 
 refs.searchForm.addEventListener('input', onImagesSearch);
 loadMoreBtn.refs.button.addEventListener('click', fetchArticles);
-
-
 
 
 function fetchArticles() {
@@ -50,9 +44,9 @@ function fetchArticles() {
     loadMoreBtn.enable();
   });
   refs.articlesContainer.scrollIntoView({
-  behavior: 'smooth',
-  block: 'end',
-})
+    behavior: 'smooth',
+    block: 'end',
+  })
 }
 
 function appendArticlesMarkup(articles) {
@@ -64,16 +58,9 @@ function clearArticlesContainer() {
 }
 
 function enlargeImage(e) {
-  // console.log( e.target.dataset.largeimg);
-  const instance = basicLightbox.create(`
-<img src="${e.target.dataset.largeimg}" >
-`);
-  // refs.modal.innerHTML = instance;
-  // console.log( instance);
-  
+  if(e.target.tagName!=='IMG'){return}
+  const instance = basicLightbox.create(`<img src="${e.target.dataset.largeimg}" >`);
   instance.show();
-  // console.log( instance);
-  
 }
 
 
