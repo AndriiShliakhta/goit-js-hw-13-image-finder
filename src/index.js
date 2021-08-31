@@ -20,9 +20,9 @@ const loadMoreBtn = new LoadMoreBtn({
 const newsApiService = new NewsApiService();
 
 const onImagesSearch = _.debounce((e) => {
-    newsApiService.query = e.target.value;
+    newsApiService.query = e.target.value.trim();
 
-    if (newsApiService.query === '' || newsApiService.query === ' ') {
+    if (!newsApiService.query) {
       return alert('Please, enter something');
     }
 
@@ -47,11 +47,12 @@ function fetchArticles() {
       return
     }
     loadMoreBtn.show();
-  });
-  refs.articlesContainer.scrollIntoView({
+    document.querySelector('.btn').scrollIntoView({
     behavior: 'smooth',
     block: 'end',
   })
+  });
+
 }
 
 function appendArticlesMarkup(articles) {

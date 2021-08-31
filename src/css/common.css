@@ -26,12 +26,8 @@ img {
 
 .button {
   display: block;
-  margin-left: -70px;
-
   width: 140px;
-  left: 50%;
-  bottom: 5vh;
-  position: fixed;
+  margin: 0 auto 5vh;
 }
 
 .button.is-hidden {
@@ -46,9 +42,11 @@ img {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
+  list-style: none;
 }
 .photo-card {
   max-width: 360px;
+  max-height: 400px;
   margin-bottom: 12px;
   outline: 1px solid lightgray;
 }
