@@ -2,7 +2,13 @@
 
 {{#each this}}
 <li class="photo-card">
-  <img src="{{webformatURL}}" data-largeimg="{{largeImageURL}}" alt="{{name}}" />
+  <img 
+    src="{{webformatURL}}" 
+    data-largeimg="{{largeImageURL}}" 
+    alt="{{name}}"
+    width="480"
+    height="240"
+  />
 
   <div class="stats">
     <p class="stats-item">
